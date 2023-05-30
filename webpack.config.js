@@ -15,9 +15,7 @@ module.exports = {
   target: "web",
   mode: isDevelopment ? "development" : "production",
   entry: {
-    // The frontend.entrypoint points to the HTML file for this build, so we need
-    // to replace the extension to `.js`.
-    index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".js"),
+    index: path.join(__dirname, frontend_entry).replace(/\.html$/, ".jsx"),
   },
   devtool: isDevelopment ? "source-map" : false,
   optimization: {
@@ -38,18 +36,12 @@ module.exports = {
     filename: "index.js",
     path: path.join(__dirname, "dist", frontendDirectory),
   },
-
-  // Depending in the language or framework you are using for
-  // front-end development, add module loaders to the default
-  // webpack configuration. For example, if you are using React
-  // modules and CSS as described in the "Adding a stylesheet"
-  // tutorial, uncomment the following lines:
-  // module: {
-  //  rules: [
-  //    { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
-  //    { test: /\.css$/, use: ['style-loader','css-loader'] }
-  //  ]
-  // },
+  module: {
+    rules: [
+      { test: /\.(ts|tsx|jsx)$/, loader: "ts-loader" },
+      { test: /\.css$/, use: ['style-loader','css-loader'] }
+    ]
+  },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, frontend_entry),
@@ -73,12 +65,16 @@ module.exports = {
           to: ".ic-assets.json5",
           noErrorOnMissing: true,
         },
+        // Add the following pattern to copy all assets
+        {
+          from: `src/${frontendDirectory}/assets`,
+          to: 'assets',
+        },
       ],
     }),
   ],
-  // proxy /api to port 4943 during development.
-  // if you edit dfx.json to define a project-specific local network, change the port to match.
   devServer: {
+    https: true,
     proxy: {
       "/api": {
         target: "http://127.0.0.1:4943",

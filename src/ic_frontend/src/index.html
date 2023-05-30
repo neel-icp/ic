@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>ic</title>
-    <base href="/" />
-    <link rel="icon" href="favicon.ico" />
-    <link type="text/css" rel="stylesheet" href="main.css" />
-  </head>
-  <body>
-    <main>
-      <img src="logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#">
-        <label for="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting"></section>
-    </main>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Puzzle</title>
+  <link rel="stylesheet" href="../assets/main.css">
+</head>
+<body>
+  <button id="start-audio">
+    <img id="mute-icon" src="../assets/mute-icon.svg" alt="Mute" width="24" height="24">
+  </button>   
+  <div id="orbit-controls">
+    <div id="orbit-controls-overlay"></div>
+  </div>
+  <div id="loading-screen">
+    <svg id="loading-animation" viewBox="0 0 120 20" xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="120" height="20" fill="none" stroke="white" stroke-width="2" rx="10" ry="10" />
+      <rect x="0" y="0" width="0" height="20" fill="white" rx="10" ry="10">
+        <animate id="loading-bar-animation" attributeName="width" from="0" to="120" dur="2s" repeatCount="1" fill="freeze" begin="indefinite" />
+      </rect>
+    </svg>
+  </div>
+<!--div id="frame-display" style="position: fixed; top: 10px; left: 10px; color: white; font-size: 24px;">Frame: 0</div> -->
+  <canvas id="canvas"></canvas> <!-- Canvas element for the first model -->
+  <audio id="cube-fall-sound" src="../assets/cube-fall.mp3" preload="auto"></audio>
+  <audio id="background-audio" src="../assets/background-audio.mp3" preload="auto" loop></audio>
+  <script src="./assets/index.jsx"></script>
+  <script src="./assets/main.js"></script>
+  <script>
+    window.addEventListener('load', () => {
+      const loadingBarAnimation = document.getElementById('loading-bar-animation');
+      loadingBarAnimation.beginElement();
+    });
+  </script>  
+</body>
 </html>
